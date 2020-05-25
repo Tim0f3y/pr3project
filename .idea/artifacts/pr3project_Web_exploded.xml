@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="pr3project:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/pr3project_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="pr3project/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="pr3project" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
