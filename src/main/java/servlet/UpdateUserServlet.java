@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
+import service.Service;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,15 +13,14 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/update/"})
 public class UpdateUserServlet extends HttpServlet {
-    private UserService service = new UserService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
-        User user = service.findUser(id);
+        User user = Service.getInstance().findUser(id);
         user.setName(req.getParameter("name"));
         user.setLastName(req.getParameter("lastName"));
-        service.updateUser(user);
+        Service.getInstance().updateUser(user);
         resp.sendRedirect("/");
     }
 

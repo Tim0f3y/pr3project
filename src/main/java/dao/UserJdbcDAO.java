@@ -1,6 +1,7 @@
 package dao;
 
 import model.User;
+import util.DBHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,10 @@ import java.util.List;
 public class UserJdbcDAO implements UserDAO, AutoCloseable {
 
 
+    private Connection connection;
+
     public UserJdbcDAO() {
+        this.connection = DBHelper.getInstance().getConnection();
     }
 
     @Override
@@ -18,7 +22,6 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
     }
 
     public List<User> getAllUsers() {
-        Connection connection = getMysqlConnection();
         List<User> userList = new ArrayList<>();
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM user");
@@ -38,7 +41,6 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
     }
 
     public User findUserById(Long id) {
-        Connection connection = getMysqlConnection();
         User user = null;
         String sql = "SELECT * FROM user WHERE id=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -58,7 +60,6 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
     }
 
     public void deleteUser(User user) {
-        Connection connection = getMysqlConnection();
         String sql = "DELETE FROM user WHERE id=? AND name=? AND lastname=?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, user.getId());
@@ -71,7 +72,6 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
     }
 
     public void addUser (User user){
-        Connection connection = getMysqlConnection();
         String sql = "INSERT INTO user(name,lastName) VALUES(?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
@@ -83,7 +83,6 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
     }
 
     public void updateUser (User user){
-        Connection connection = getMysqlConnection();
         String sql = "update user set name = ? , lastname = ? where id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, user.getName());
@@ -94,30 +93,5 @@ public class UserJdbcDAO implements UserDAO, AutoCloseable {
             e.printStackTrace();
         }
 
-    }
-
-    private Connection getMysqlConnection() {
-        try {
-            DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance());
-
-            StringBuilder url = new StringBuilder();
-
-            url.
-                    append("jdbc:mysql://").        //db type
-                    append("localhost:").           //host name
-                    append("3306/").                //port
-                    append("db_example?").          //db name
-                    append("user=root&").          //login
-                    append("password=10293847&").
-                    append("serverTimezone=UTC");   //setup server time
-
-            System.out.println("URL: " + url + "\n");
-
-            return DriverManager.getConnection(url.toString());
-        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            System.out.println("Проблемы Соединения");
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
     }
 }

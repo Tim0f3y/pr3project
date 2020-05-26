@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
+import service.Service;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/add/"})
 public class AddUserServlet extends HttpServlet {
-    private UserService service = new UserService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -20,7 +19,7 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String lastName = req.getParameter("lastName");
         User user = new User(name, lastName);
-        service.saveUser(user);
+        Service.getInstance().saveUser(user);
         resp.sendRedirect("/");
     }
 

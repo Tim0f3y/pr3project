@@ -1,21 +1,15 @@
 package dao;
 
 import model.User;
-
 import java.util.List;
-
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import util.DBHelper;
 
 public class UserHibernateDAO implements UserDAO {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = configureSessionFactory()
+        Session session = DBHelper.getInstance().getConfiguration()
                 .getCurrentSession();
         session.beginTransaction();
         List<User> users = session.createQuery("FROM User").list();
@@ -25,7 +19,7 @@ public class UserHibernateDAO implements UserDAO {
 
     @Override
     public User findUserById(Long id) {
-        Session session = configureSessionFactory()
+        Session session = DBHelper.getInstance().getConfiguration()
                 .getCurrentSession();
         session.beginTransaction();
         User user = (User) session.get(User.class, id);
@@ -35,7 +29,7 @@ public class UserHibernateDAO implements UserDAO {
 
     @Override
     public void deleteUser(User user) {
-        Session session = configureSessionFactory()
+        Session session = DBHelper.getInstance().getConfiguration()
                 .getCurrentSession();
         session.beginTransaction();
         session.delete(user);
@@ -44,7 +38,7 @@ public class UserHibernateDAO implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        Session session = configureSessionFactory()
+        Session session = DBHelper.getInstance().getConfiguration()
                 .getCurrentSession();
         session.beginTransaction();
         session.save(user);
@@ -53,18 +47,10 @@ public class UserHibernateDAO implements UserDAO {
 
     @Override
     public void updateUser(User user) {
-        Session session = configureSessionFactory()
+        Session session = DBHelper.getInstance().getConfiguration()
                 .getCurrentSession();
         session.beginTransaction();
         session.update(user);
         session.getTransaction().commit();
     }
-
-    private SessionFactory configureSessionFactory() throws HibernateException {
-        Configuration configuration = new Configuration().configure();
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
-                configuration.getProperties()).buildServiceRegistry();
-        return configuration.buildSessionFactory(serviceRegistry);
-    }
-
 }
