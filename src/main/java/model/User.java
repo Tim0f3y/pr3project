@@ -1,10 +1,19 @@
 package model;
 
-import java.util.Objects;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "user")
 public class User {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "lastname")
     private String lastName;
 
     public User() {
