@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {"/add/"})
+@WebServlet(urlPatterns = {"/admin/add/"})
 public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -18,9 +18,11 @@ public class AddUserServlet extends HttpServlet {
         //добавить юзера
         String name = req.getParameter("name");
         String lastName = req.getParameter("lastName");
-        User user = new User(name, lastName);
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        User user = new User(name, lastName,login, password);
         Service.getInstance().saveUser(user);
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin/");
     }
 
 }

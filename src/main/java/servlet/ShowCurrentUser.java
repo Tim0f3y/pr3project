@@ -13,19 +13,23 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/admin/"})
-public class ShowUserServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/user/"})
+public class ShowCurrentUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> users = Service.getInstance().findAllUsers();
-        req.setAttribute("users", users);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("showUsers.jsp");
+
+        HttpSession session = req.getSession();
+        String login = (String) session.getAttribute("login");
+        User user = Service.getInstance().findUserByLogin(login);
+        req.setAttribute("user", user);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("userPage.jsp");
         dispatcher.forward(req, resp);
+
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> users = Service.getInstance().findAllUsers();
-        req.setAttribute("users", users);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("showUsers.jsp");
+        User user = Service.getInstance().findUserByLogin(req.getParameter("login"));
+        req.setAttribute("user", user);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("userPage.jsp");
         dispatcher.forward(req, resp);
 
     }

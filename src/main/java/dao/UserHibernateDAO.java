@@ -53,4 +53,14 @@ public class UserHibernateDAO implements UserDAO {
         session.update(user);
         session.getTransaction().commit();
     }
+
+    @Override
+    public User findUserByLogin(String login) {
+        Session session = DBHelper.getInstance().getConfiguration()
+                .getCurrentSession();
+        session.beginTransaction();
+        User user = (User) session.get(User.class, login);
+        session.getTransaction().commit();
+        return user;
+    }
 }

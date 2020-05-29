@@ -41,4 +41,9 @@ public class Service {
     public void deleteUser(User user) {
         daoFactory.getUserDAO().deleteUser(user);
     }
+
+    public User findUserByLogin (String login){
+        return  daoFactory.getUserDAO().findUserByLogin(login);
+    }
+
 }

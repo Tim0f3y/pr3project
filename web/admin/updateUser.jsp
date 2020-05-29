@@ -14,10 +14,13 @@
 
 Редактировать пользователя
 
-<form action="/update/" method="post">
+<form action="/admin/update/" method="post">
     <input type="hidden" name = "id" value="${param.id}">
     <input type="text" name="name" value="${param.name}" placeholder=${param.name}>
     <input type="text" name="lastName" value="${param.lastName}" placeholder=${param.lastName}>
+    <input type="text" name="login" value="${param.login}" placeholder=${param.login}>
+    <input type="text" name="password" value="${param.password}" placeholder=${param.password}>
+    <input type="text" name="role" value="${param.role}" placeholder=${param.role}>
     <input type="hidden" name="_method" value="put">
     <input type="submit" value="Обновить">
 </form>

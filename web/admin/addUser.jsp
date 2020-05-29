@@ -11,9 +11,11 @@
     <title>Добавить нового пользователя</title>
 </head>
 <body>
-<form action = "/add/" method="post">
+<form action = "/admin/add/" method="post">
     <input required type="text" name="name" placeholder="Имя">
     <input required type="text" name="lastName" placeholder="Фамилия">
+    <input required type="text" name="login" placeholder="Логин">
+    <input required type="text" name="password" placeholder="Пароль">
     <input type="submit" value="Сохранить">
 </form>
 </body>

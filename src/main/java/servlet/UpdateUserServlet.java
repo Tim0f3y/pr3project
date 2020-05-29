@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(urlPatterns = {"/update/"})
+@WebServlet(urlPatterns = {"/admin/update/"})
 public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -20,8 +20,11 @@ public class UpdateUserServlet extends HttpServlet {
         User user = Service.getInstance().findUser(id);
         user.setName(req.getParameter("name"));
         user.setLastName(req.getParameter("lastName"));
+        user.setRole(req.getParameter("role"));
+        user.setLogin(req.getParameter("login"));
+        user.setPassword(req.getParameter("password"));
         Service.getInstance().updateUser(user);
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin/");
     }
 
 }
